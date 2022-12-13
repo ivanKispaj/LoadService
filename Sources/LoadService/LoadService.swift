@@ -1,5 +1,5 @@
 //
-//  DBRealm.swift
+//  LoadService.swift
 //
 //
 //  Created by Ivan Konishchev on 13.12.2022.
@@ -13,32 +13,26 @@ public final class LoadService {
     var token: String
     var userId: String
     var subscriber: Set<AnyCancellable> = Set<AnyCancellable>()
-    
+    var method: VKApiMethods
     //MARK: - Init
     
-   public init(token: String, userId: String) {
+    public init(token: String, userId: String, method: VKApiMethods) {
         self.token = token
         self.userId = userId
+        self.method = method
     }
     
     public func loadFromInternet<T: Decodable>(object: T.Type,completion: @escaping (T) -> Void) async  {
         
-        await LoadFromInternet().load(for: T.self, apiMethod: .getCountFriends(token: token, userId: userId))
+        await LoadFromInternet().load(for: T.self, apiMethod: self.method)
             .sink(receiveCompletion: { (completion) in
-                          if case let .failure(error) = completion {
-                              print(error)
-                          }
-                      }, receiveValue: { friend in
-//                          DispatchQueue.main.async {
-//                              self.database.updateData(object: friend.response)
-//
-//                          }
-                          
-//                          self.parseInterface.parse(from: friend.response) { frineds in
-//                              self.setGroupedFriends(from: frineds)
-//                          }
-                      completion(friend)
-                            })
+                if case let .failure(error) = completion {
+                    print(error)
+                }
+            }, receiveValue: { friend in
+                
+                completion(friend)
+            })
             .store(in: &self.subscriber) 
     }
 }
