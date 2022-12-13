@@ -39,6 +39,8 @@ final class LoadFromInternet {
                 return promise( .failure(.internetConnectionFault))
             }
             
+            print(url) //DEBAG!!!!
+            
             URLSession.shared.dataTaskPublisher(for: url)
                 .tryMap { (data , response) -> Data in
                     guard let httpResponse = response as? HTTPURLResponse,

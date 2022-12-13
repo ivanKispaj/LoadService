@@ -10,6 +10,7 @@ import Combine
 
 @available(iOS 13.0, *)
 public final class LoadService {
+    var internet: LoadFromInternet = LoadFromInternet()
     var token: String
     var userId: String
     var subscriber: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -24,7 +25,7 @@ public final class LoadService {
     
     public func loadFromInternet<T: Decodable>(object: T.Type,completion: @escaping (T) -> Void) async  {
         
-        await LoadFromInternet().load(for: T.self, apiMethod: self.method)
+        await self.internet.load(for: T.self, apiMethod: self.method)
             .sink(receiveCompletion: { (completion) in
                 if case let .failure(error) = completion {
                     print(error)
