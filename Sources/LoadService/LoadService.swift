@@ -16,8 +16,8 @@ public final class LoadService {
     var method: VKApiMethods
     //MARK: - Init
     
-    public init(token: String, userId: String, method: VKApiMethods) {
-        self.token = token
+    public init(userId: String, method: VKApiMethods) {
+        self.token =  method.associatedType()
         self.userId = userId
         self.method = method
     }
