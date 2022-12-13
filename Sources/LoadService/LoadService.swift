@@ -16,7 +16,7 @@ public final class LoadService {
     
     //MARK: - Init
     
-    init(token: String, userId: String) {
+   public init(token: String, userId: String) {
         self.token = token
         self.userId = userId
     }
