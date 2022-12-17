@@ -30,9 +30,9 @@ public final class LoadService {
                 if case let .failure(error) = completion {
                     print(error)
                 }
-            }, receiveValue: { friend in
+            }, receiveValue: { T_Object in
                 
-                completion(friend)
+                completion(T_Object)
             })
             .store(in: &self.subscriber) 
     }
